@@ -10,7 +10,7 @@ const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerH
 camera.position.set(0, 80, 160)
 
 // Renderer with enhanced settings
-const renderer = new THREE.WebGLRenderer({ 
+const renderer = new THREE.WebGLRenderer({
   antialias: true,
   powerPreference: "high-performance"
 })
@@ -238,7 +238,7 @@ function createDecorations() {
     { emoji: '🔭', left: '85%', top: '15%' },
     { emoji: '🚀', left: '15%', top: '75%' }
   ]
-  
+
   decorations.forEach((dec, index) => {
     const element = document.createElement('div')
     element.className = `decoration floating-element ${index % 2 === 0 ? 'pulse' : ''}`
@@ -349,10 +349,10 @@ const neptuneTexture = textureLoader.load('/textures/neptune.webp')
 // Create enhanced starfield with different star sizes
 function createStarfield(): THREE.Points {
   const starGeometry = new THREE.BufferGeometry()
-  
+
   const starVertices: number[] = []
   const starSizes: number[] = []
-  
+
   for (let i = 0; i < 20000; i++) {
     const x = (Math.random() - 0.5) * 3000
     const y = (Math.random() - 0.5) * 3000
@@ -363,7 +363,7 @@ function createStarfield(): THREE.Points {
 
   starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3))
   starGeometry.setAttribute('size', new THREE.Float32BufferAttribute(starSizes, 1))
-  
+
   const starMaterial = new THREE.PointsMaterial({
     color: 0xffffff,
     size: 1,
@@ -371,7 +371,7 @@ function createStarfield(): THREE.Points {
     transparent: true,
     opacity: 0.8
   })
-  
+
   return new THREE.Points(starGeometry, starMaterial)
 }
 
@@ -381,7 +381,7 @@ scene.add(stars)
 // Sun with enhanced glow effect
 const sun = new THREE.Mesh(
   new THREE.SphereGeometry(5, 64, 64),
-  new THREE.MeshBasicMaterial({ 
+  new THREE.MeshBasicMaterial({
     map: sunTexture,
     toneMapped: false
   })
@@ -402,20 +402,20 @@ sun.add(sunGlow)
 // Create a simple character sitting on the sun
 function createCharacter(): THREE.Group {
   const character = new THREE.Group()
-  
+
   const body = new THREE.Mesh(
     new THREE.SphereGeometry(0.3, 16, 16),
     new THREE.MeshBasicMaterial({ color: 0x4ECDC4 })
   )
   character.add(body)
-  
+
   const head = new THREE.Mesh(
     new THREE.SphereGeometry(0.2, 16, 16),
     new THREE.MeshBasicMaterial({ color: 0xFFE66D })
   )
   head.position.y = 0.5
   character.add(head)
-  
+
   const leftArm = new THREE.Mesh(
     new THREE.CylinderGeometry(0.05, 0.05, 0.4, 8),
     new THREE.MeshBasicMaterial({ color: 0x4ECDC4 })
@@ -423,7 +423,7 @@ function createCharacter(): THREE.Group {
   leftArm.position.set(0.3, 0.2, 0)
   leftArm.rotation.z = Math.PI / 4
   character.add(leftArm)
-  
+
   const rightArm = new THREE.Mesh(
     new THREE.CylinderGeometry(0.05, 0.05, 0.4, 8),
     new THREE.MeshBasicMaterial({ color: 0x4ECDC4 })
@@ -431,10 +431,10 @@ function createCharacter(): THREE.Group {
   rightArm.position.set(-0.3, 0.2, 0)
   rightArm.rotation.z = -Math.PI / 4
   character.add(rightArm)
-  
+
   character.position.y = 5.5
   character.rotation.x = Math.PI / 6
-  
+
   return character
 }
 
@@ -442,37 +442,37 @@ const character = createCharacter()
 sun.add(character)
 
 // Planets creation with enhanced materials
-const mercury = new THREE.Mesh(new THREE.SphereGeometry(0.8, 32, 32), new THREE.MeshPhongMaterial({ 
+const mercury = new THREE.Mesh(new THREE.SphereGeometry(0.8, 32, 32), new THREE.MeshPhongMaterial({
   map: mercuryTexture,
-  shininess: 30 
+  shininess: 30
 }))
-const venus = new THREE.Mesh(new THREE.SphereGeometry(1.2, 32, 32), new THREE.MeshPhongMaterial({ 
+const venus = new THREE.Mesh(new THREE.SphereGeometry(1.2, 32, 32), new THREE.MeshPhongMaterial({
   map: venusTexture,
-  shininess: 50 
+  shininess: 50
 }))
-const earth = new THREE.Mesh(new THREE.SphereGeometry(1.3, 32, 32), new THREE.MeshPhongMaterial({ 
+const earth = new THREE.Mesh(new THREE.SphereGeometry(1.3, 32, 32), new THREE.MeshPhongMaterial({
   map: earthTexture,
-  shininess: 40 
+  shininess: 40
 }))
-const mars = new THREE.Mesh(new THREE.SphereGeometry(0.9, 32, 32), new THREE.MeshPhongMaterial({ 
+const mars = new THREE.Mesh(new THREE.SphereGeometry(0.9, 32, 32), new THREE.MeshPhongMaterial({
   map: marsTexture,
-  shininess: 25 
+  shininess: 25
 }))
-const jupiter = new THREE.Mesh(new THREE.SphereGeometry(2.8, 32, 32), new THREE.MeshPhongMaterial({ 
+const jupiter = new THREE.Mesh(new THREE.SphereGeometry(2.8, 32, 32), new THREE.MeshPhongMaterial({
   map: jupiterTexture,
-  shininess: 60 
+  shininess: 60
 }))
-const saturn = new THREE.Mesh(new THREE.SphereGeometry(2.4, 32, 32), new THREE.MeshPhongMaterial({ 
+const saturn = new THREE.Mesh(new THREE.SphereGeometry(2.4, 32, 32), new THREE.MeshPhongMaterial({
   map: saturnTexture,
-  shininess: 55 
+  shininess: 55
 }))
-const uranus = new THREE.Mesh(new THREE.SphereGeometry(1.8, 32, 32), new THREE.MeshPhongMaterial({ 
+const uranus = new THREE.Mesh(new THREE.SphereGeometry(1.8, 32, 32), new THREE.MeshPhongMaterial({
   map: uranusTexture,
-  shininess: 45 
+  shininess: 45
 }))
-const neptune = new THREE.Mesh(new THREE.SphereGeometry(1.7, 32, 32), new THREE.MeshPhongMaterial({ 
+const neptune = new THREE.Mesh(new THREE.SphereGeometry(1.7, 32, 32), new THREE.MeshPhongMaterial({
   map: neptuneTexture,
-  shininess: 45 
+  shininess: 45
 }))
 
 const planets = { mercury, venus, earth, mars, jupiter, saturn, uranus, neptune }
@@ -488,20 +488,20 @@ function createPlanetLabel(text: string, planet: THREE.Mesh): THREE.Sprite {
   const context = canvas.getContext('2d')!
   canvas.width = 256
   canvas.height = 64
-  
+
   // Draw label background
   context.fillStyle = 'rgba(0, 0, 0, 0.8)'
   context.fillRect(0, 0, canvas.width, canvas.height)
-  
+
   // Draw text
   context.font = 'bold 24px Arial'
   context.fillStyle = 'white'
   context.textAlign = 'center'
   context.textBaseline = 'middle'
   context.fillText(text, canvas.width / 2, canvas.height / 2)
-  
+
   const texture = new THREE.CanvasTexture(canvas)
-  const material = new THREE.SpriteMaterial({ 
+  const material = new THREE.SpriteMaterial({
     map: texture,
     transparent: true,
     opacity: 0.8
@@ -511,7 +511,7 @@ function createPlanetLabel(text: string, planet: THREE.Mesh): THREE.Sprite {
   sprite.position.copy(planet.position)
   sprite.position.y += 2
   sprite.visible = false // Start hidden
-  
+
   return sprite
 }
 
@@ -524,9 +524,9 @@ Object.entries(planets).forEach(([name, planet]) => {
 
 // Enhanced rings
 const saturnRing = new THREE.Mesh(
-  new THREE.RingGeometry(3, 4.5, 64), 
-  new THREE.MeshBasicMaterial({ 
-    color: 0xdddddd, 
+  new THREE.RingGeometry(3, 4.5, 64),
+  new THREE.MeshBasicMaterial({
+    color: 0xdddddd,
     side: THREE.DoubleSide,
     transparent: true,
     opacity: 0.8
@@ -536,9 +536,9 @@ saturnRing.rotation.x = Math.PI / 2
 saturn.add(saturnRing)
 
 const uranusRing = new THREE.Mesh(
-  new THREE.RingGeometry(2.2, 2.5, 64), 
-  new THREE.MeshBasicMaterial({ 
-    color: 0xaaaaaa, 
+  new THREE.RingGeometry(2.2, 2.5, 64),
+  new THREE.MeshBasicMaterial({
+    color: 0xaaaaaa,
     side: THREE.DoubleSide,
     transparent: true,
     opacity: 0.4
@@ -576,9 +576,9 @@ function createOrbit(radius: number, color: number): void {
   const curve = new THREE.EllipseCurve(0, 0, radius, radius, 0, 2 * Math.PI, false, 0)
   const points = curve.getPoints(150)
   const geometry = new THREE.BufferGeometry().setFromPoints(points)
-  const material = new THREE.LineBasicMaterial({ 
-    color, 
-    transparent: true, 
+  const material = new THREE.LineBasicMaterial({
+    color,
+    transparent: true,
     opacity: 0.4
   })
   const orbit = new THREE.LineLoop(geometry, material)
@@ -614,7 +614,7 @@ document.getElementById('viewControl')!.addEventListener('change', (e) => {
     jupiter: [28, 8, 28], saturn: [36, 8, 36], uranus: [42, 8, 42], neptune: [48, 8, 48],
     sun: [0, 15, 25]
   }
-  
+
   if (view !== 'free') {
     const [x, y, z] = planetPositions[view as keyof typeof planetPositions]
     camera.position.set(x, y, z)
@@ -629,7 +629,7 @@ document.getElementById('viewControl')!.addEventListener('change', (e) => {
 document.getElementById('toggleOrbits')!.addEventListener('click', () => {
   orbitsVisible = !orbitsVisible
   orbits.forEach(orbit => orbit.visible = orbitsVisible)
-  
+
   const button = document.getElementById('toggleOrbits')!
   if (orbitsVisible) {
     button.textContent = '🔄 Hide Orbits'
@@ -644,7 +644,7 @@ document.getElementById('toggleOrbits')!.addEventListener('click', () => {
 document.getElementById('toggleStars')!.addEventListener('click', () => {
   starsVisible = !starsVisible
   stars.visible = starsVisible
-  
+
   const button = document.getElementById('toggleStars')!
   if (starsVisible) {
     button.textContent = '⭐ Hide Stars'
@@ -659,12 +659,16 @@ document.getElementById('toggleStars')!.addEventListener('click', () => {
 document.getElementById('toggleLabels')!.addEventListener('click', () => {
   labelsVisible = !labelsVisible
   planetLabels.forEach(label => label.visible = labelsVisible)
-  
+
   const button = document.getElementById('toggleLabels')!
   if (labelsVisible) {
-    button.textContent = '🏷️ Hide Planet Labels'
-    button.classList.add('active')
-  } else {
+    Object.entries(planets).forEach(([_name, planet], index) => {
+      const label = planetLabels[index]
+      label.position.copy(planet.position)
+      label.position.y += 2
+    })
+  }
+  else {
     button.textContent = '🏷️ Show Planet Labels'
     button.classList.remove('active')
   }
@@ -743,7 +747,7 @@ function animate(): void {
   // Planet interaction with enhanced feedback
   raycaster.setFromCamera(mouse, camera)
   const intersects = raycaster.intersectObjects(Object.values(planets))
-  
+
   if (intersects.length > 0) {
     const planet = intersects[0].object
     const planetName = Object.keys(planets).find(key => planets[key as keyof typeof planets] === planet)
