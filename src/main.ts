@@ -44,6 +44,53 @@ style.innerHTML = `
     border: 1px solid rgba(100, 100, 255, 0.2);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     min-width: 280px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+  
+  #ui-container.hidden {
+    transform: translateX(-320px);
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  #toggle-ui-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: linear-gradient(135deg, rgba(78, 205, 196, 0.3), rgba(78, 205, 196, 0.1));
+    border: 1px solid rgba(100, 150, 255, 0.3);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    backdrop-filter: blur(10px);
+    z-index: 101;
+    display: none;
+  }
+  
+  #toggle-ui-btn:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.15));
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(100, 150, 255, 0.2);
+    border-color: rgba(100, 200, 255, 0.5);
+  }
+  
+  #ui-visible #toggle-ui-btn {
+    left: 350px;
+  }
+  
+  #ui-visible #toggle-ui-btn:after {
+    content: "◀ Hide UI";
+  }
+  
+  #ui-hidden #toggle-ui-btn {
+    left: 20px;
+  }
+  
+  #ui-hidden #toggle-ui-btn:after {
+    content: "Show UI ▶";
   }
   
   #title {
@@ -134,6 +181,34 @@ style.innerHTML = `
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     max-width: 320px;
     color: white;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+  
+  #info-panel.hidden {
+    transform: translateX(340px);
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  #instructions {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(20, 20, 40, 0.8));
+    padding: 15px;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(100, 100, 255, 0.2);
+    color: #e0e0ff;
+    font-size: 12px;
+    max-width: 250px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+  
+  #instructions.hidden {
+    transform: translateX(-270px);
+    opacity: 0;
+    pointer-events: none;
   }
   
   .panel-title {
@@ -201,20 +276,6 @@ style.innerHTML = `
     50% { opacity: 0.7; }
   }
   
-  #instructions {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(20, 20, 40, 0.8));
-    padding: 15px;
-    border-radius: 10px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(100, 100, 255, 0.2);
-    color: #e0e0ff;
-    font-size: 12px;
-    max-width: 250px;
-  }
-  
   .instruction-item {
     margin: 5px 0;
     display: flex;
@@ -224,6 +285,45 @@ style.innerHTML = `
   .instruction-icon {
     margin-right: 8px;
     font-size: 14px;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    #ui-container, #info-panel, #instructions {
+      transform: scale(0.9);
+      transform-origin: top left;
+    }
+    
+    #info-panel {
+      bottom: 10px;
+      right: 10px;
+      max-width: 280px;
+    }
+    
+    #instructions {
+      bottom: 10px;
+      left: 10px;
+      max-width: 220px;
+    }
+    
+    #ui-visible #toggle-ui-btn {
+      left: 300px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    #ui-container {
+      padding: 15px;
+      min-width: 250px;
+    }
+    
+    #ui-container.hidden {
+      transform: translateX(-280px);
+    }
+    
+    #ui-visible #toggle-ui-btn {
+      left: 270px;
+    }
   }
 `
 document.head.appendChild(style)
@@ -252,6 +352,12 @@ function createDecorations() {
 }
 
 createDecorations()
+
+// Add UI toggle button
+const toggleUIButton = document.createElement('button')
+toggleUIButton.id = 'toggle-ui-btn'
+toggleUIButton.textContent = 'Show UI ▶'
+document.body.appendChild(toggleUIButton)
 
 // Create UI
 const uiContainer = document.createElement('div')
@@ -289,6 +395,9 @@ uiContainer.innerHTML = `
   <div class="control-group">
     <button id="toggleLabels">🏷️ Show Planet Labels</button>
   </div>
+  <div class="control-group">
+    <button id="toggleAllUI">👁️ Toggle All UI Panels</button>
+  </div>
 `
 document.body.appendChild(uiContainer)
 
@@ -308,6 +417,10 @@ instructions.innerHTML = `
   <div class="instruction-item">
     <span class="instruction-icon">✨</span>
     <span>Hover planets for info</span>
+  </div>
+  <div class="instruction-item">
+    <span class="instruction-icon">👁️</span>
+    <span>Toggle UI button top-left</span>
   </div>
 `
 document.body.appendChild(instructions)
@@ -601,8 +714,33 @@ let animationSpeed = 1
 let orbitsVisible = true
 let starsVisible = true
 let labelsVisible = false
+let uiVisible = true
 
-// UI Event Handlers - FIXED FUNCTIONALITY
+// Toggle UI function
+function toggleUI() {
+  uiVisible = !uiVisible
+  
+  if (uiVisible) {
+    uiContainer.classList.remove('hidden')
+    infoPanel.classList.remove('hidden')
+    instructions.classList.remove('hidden')
+    document.body.id = 'ui-visible'
+  } else {
+    uiContainer.classList.add('hidden')
+    infoPanel.classList.add('hidden')
+    instructions.classList.add('hidden')
+    document.body.id = 'ui-hidden'
+  }
+}
+
+// Keyboard shortcut for toggling UI (U key)
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'u' || event.key === 'U') {
+    toggleUI()
+  }
+})
+
+// UI Event Handlers
 document.getElementById('speedControl')!.addEventListener('change', (e) => {
   animationSpeed = parseFloat((e.target as HTMLSelectElement).value)
 })
@@ -625,7 +763,7 @@ document.getElementById('viewControl')!.addEventListener('change', (e) => {
   }
 })
 
-// Toggle Orbits Button - FIXED
+// Toggle Orbits Button
 document.getElementById('toggleOrbits')!.addEventListener('click', () => {
   orbitsVisible = !orbitsVisible
   orbits.forEach(orbit => orbit.visible = orbitsVisible)
@@ -640,7 +778,7 @@ document.getElementById('toggleOrbits')!.addEventListener('click', () => {
   }
 })
 
-// Toggle Stars Button - FIXED
+// Toggle Stars Button
 document.getElementById('toggleStars')!.addEventListener('click', () => {
   starsVisible = !starsVisible
   stars.visible = starsVisible
@@ -655,7 +793,7 @@ document.getElementById('toggleStars')!.addEventListener('click', () => {
   }
 })
 
-// Toggle Labels Button - FIXED
+// Toggle Labels Button
 document.getElementById('toggleLabels')!.addEventListener('click', () => {
   labelsVisible = !labelsVisible
   planetLabels.forEach(label => label.visible = labelsVisible)
@@ -674,6 +812,16 @@ document.getElementById('toggleLabels')!.addEventListener('click', () => {
     button.textContent = '🏷️ Show Planet Labels'
     button.classList.remove('active')
   }
+})
+
+// Toggle All UI Panels Button
+document.getElementById('toggleAllUI')!.addEventListener('click', () => {
+  toggleUI()
+})
+
+// Toggle UI Button
+toggleUIButton.addEventListener('click', () => {
+  toggleUI()
 })
 
 // Enhanced planet interaction
@@ -768,5 +916,9 @@ camera.position.set(0, 100, 200)
 setTimeout(() => {
   camera.position.set(0, 80, 160)
 }, 1000)
+
+// Initialize with UI visible
+document.body.id = 'ui-visible'
+toggleUIButton.style.display = 'block'
 
 animate()
