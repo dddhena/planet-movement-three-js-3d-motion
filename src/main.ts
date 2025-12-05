@@ -662,13 +662,15 @@ document.getElementById('toggleLabels')!.addEventListener('click', () => {
 
   const button = document.getElementById('toggleLabels')!
   if (labelsVisible) {
+    button.textContent = '🏷️ Hide Planet Labels'
+    button.classList.add('active')
+    // Update label positions when showing
     Object.entries(planets).forEach(([_name, planet], index) => {
       const label = planetLabels[index]
       label.position.copy(planet.position)
       label.position.y += 2
     })
-  }
-  else {
+  } else {
     button.textContent = '🏷️ Show Planet Labels'
     button.classList.remove('active')
   }
@@ -727,7 +729,7 @@ function animate(): void {
 
   // Update planet labels positions
   if (labelsVisible) {
-    Object.entries(planets).forEach(([name, planet], index) => {
+    Object.entries(planets).forEach(([_name, planet], index) => {
       const label = planetLabels[index]
       label.position.copy(planet.position)
       label.position.y += 2
