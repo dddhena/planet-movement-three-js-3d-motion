@@ -57,42 +57,44 @@ style.innerHTML = `
     position: absolute;
     top: 20px;
     left: 20px;
-    background: linear-gradient(135deg, rgba(78, 205, 196, 0.3), rgba(78, 205, 196, 0.1));
+    background: rgba(20, 20, 40, 0.7);
     border: 1px solid rgba(100, 150, 255, 0.3);
-    color: white;
-    padding: 10px 15px;
-    border-radius: 8px;
+    color: #4ecdc4;
+    padding: 6px 12px;
+    border-radius: 20px;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-size: 14px;
+    font-size: 12px;
     backdrop-filter: blur(10px);
     z-index: 101;
     display: none;
+    min-width: 80px;
+    text-align: center;
   }
   
   #toggle-ui-btn:hover {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.15));
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(100, 150, 255, 0.2);
+    background: rgba(30, 30, 60, 0.9);
     border-color: rgba(100, 200, 255, 0.5);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   }
   
   #ui-visible #toggle-ui-btn {
-    left: 350px;
+    left: 20px;
+    background: rgba(20, 20, 40, 0.8);
   }
   
   #ui-visible #toggle-ui-btn:after {
-    content: "◀ Hide UI";
+    content: "👁️ Hide UI";
   }
   
   #ui-hidden #toggle-ui-btn {
     left: 20px;
+    background: rgba(20, 20, 40, 0.6);
   }
   
   #ui-hidden #toggle-ui-btn:after {
-    content: "Show UI ▶";
+    content: "👁️ Show UI";
   }
-  
   #title {
     font-size: 28px;
     margin-bottom: 20px;
